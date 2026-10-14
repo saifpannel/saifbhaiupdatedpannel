@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>SAIF BHAI PANNEL SHOP</title>
+
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,sans-serif;
+}
+
+body{
+    background:#0b0f19;
+    color:white;
+}
+
+header{
+    background:#111827;
+    padding:18px 6%;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.logo{
+    font-size:80px;
+    font-weight:bold;
+    text-shadow: 0 0 8px #00e5ff, 0 0 16px #00e5ff;
+    font-family: "Orbitron", sans-serif;
+
+}
+
+nav button{
+    background:#000000;
+    color:rgb(72, 203, 11);
+    border:0;
+    padding:10px 16px;
+    border-radius:8px;
+    cursor:pointer;
+    margin:3px;
+}
+
+.hero{
+    text-align:center;
+    padding:55px 20px;
+    background:linear-gradient(135deg,#111827,#172554);
+}
+
+.hero h1{
+    font-size:38px;
+    margin-bottom:12px;
+}
+
+.hero p{
+    color:#cbd5e1;
+}
+
+.products{
+    padding:40px 6%;
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:25px;
+}
+
+.card{
+    background:#111827;
+    border:1px solid #263244;
+    border-radius:16px;
+    overflow:hidden;
+    box-shadow:0 8px 25px rgba(0,0,0,.3);
+}
+
+.product-image{
+    height:190px;
+    background:linear-gradient(135deg,#1e3a8a,#312e81);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-size:60px;
+}
+
+.card-content{
+    padding:20px;
+}
+
+.card h2{
+    margin-bottom:15px;
+    font-size:21px;
+}
+
+select{
+    width:100%;
+    padding:12px;
+    border-radius:8px;
+    border:1px solid #374151;
+    background:#0f172a;
+    color:white;
+    margin-bottom:12px;
+}
+
+.price{
+    font-size:22px;
+    font-weight:bold;
+    margin:10px 0 15px;
+}
+
+.btn{
+    width:100%;
+    padding:12px;
+    border:0;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+    margin-top:8px;
+}
+
+.cart-btn{
+    background:#22c55e;
+    color:white;
+}
+
+.video-btn{
+    background:#dc2626;
+    color:white;
+}
+
+section{
+    padding:25px 6%;
+}
+
+.panel{
+    max-width:700px;
+    margin:20px auto;
+    background:#111827;
+    border:1px solid #263244;
+    border-radius:15px;
+    padding:25px;
+}
+
+.panel h2{
+    margin-bottom:15px;
+}
+
+.cart-item{
+    padding:15px 0;
+    border-bottom:1px solid #374151;
+}
+
+.remove{
+    background:#ef4444;
+    color:white;
+    border:0;
+    padding:7px 10px;
+    border-radius:6px;
+    margin-top:8px;
+    cursor:pointer;
+}
+
+.total{
+    font-size:22px;
+    font-weight:bold;
+    margin-top:20px;
+}
+
+footer{
+    text-align:center;
+    padding:25px;
+    color:#94a3b8;
+}
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.8);
+    justify-content:center;
+    align-items:center;
+    z-index:1000;
+    padding:20px;
+}
+
+.modal-box{
+    background:#111827;
+    padding:20px;
+    border-radius:15px;
+    width:100%;
+    max-width:700px;
+}
+
+.modal video{
+    width:100%;
+    max-height:450px;
+    border-radius:10px;
+    margin-top:15px;
+}
+
+.close{
+    float:right;
+    background:#ef4444;
+    color:white;
+    border:0;
+    padding:7px 12px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+@media(max-width:600px){
+    .hero h1{
+        font-size:30px;
+    }
+
+    .products{
+        padding:25px 4%;
+    }
+}
+.instruction-box {
+    max-width: 900px;
+    margin: 25px auto;
+    padding: 18px 20px;
+    background: #111827;
+    border: 1px solid #00eaff;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0, 234, 255, 0.15);
+}
+
+.instruction-box h3 {
+    margin: 0 0 12px;
+    color: #00eaff;
+}
+
+.instruction-box p {
+    margin: 7px 0;
+    color: #e5e7eb;
+    line-height: 1.5;
+}
+</style>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+<header>
+
+<div class="logo">
+    <img src="logo.jpeg" alt="SAIF BHAI PANNEL SHOP" style="width:120px; height:120px; object-fit:contain;">
+    <span style="color:#ff0000;">SAIF BHAI PANNEL SHOP</span>
+</div>
+
+<nav>
+
+<button onclick="showCart()">
+🛒 Cart (<span id="cartCount">0</span>)
+</button>
+
+<button id="loginButton" onclick="showLogin()">
+Login / Register
+</button>
+
+<span id="userArea" style="display:none;">
+    👤 <span id="userName"></span>
+    <button onclick="logout()">Logout</button>
+</span>
+
+<button onclick="showSupport()">
+Support
+</button>
+
+</nav>
+
+</header>
+
+<div class="hero">
+
+<h1>Digital License Keys</h1>
+
+<p>Choose your product, select duration and add it to your cart.</p>
+
+</div>
+
+<div class="products">
+
+<!-- PRODUCT 1 -->
+
+<div class="card">
+
+<div class="product-image">
+    <img src="product1.jpeg" alt="Dripclient Nonroot Safe">
+</div>
+
+<div class="card-content">
+
+<h2>Dripclient Nonroot Safe</h2>
+
+<select id="product1" onchange="updatePrice(1)">
+
+<option value="15">1 Hour — ₹15</option>
+<option value="40">6 Hours — ₹40</option>
+<option value="60">13 Hours — ₹60</option>
+
+</select>
+
+<div class="price">
+₹<span id="price1">15</span>
+</div>
+
+<button class="btn cart-btn" onclick="addProduct(1)">
+🛒 Add to Cart
+</button>
+
+<button class="btn video-btn" onclick="openVideo('Dripclient Nonroot Safe')">
+🎬 Watch Testing Video
+</button>
+
+</div>
+</div>
+
+
+<!-- PRODUCT 2 -->
+
+<div class="card">
+
+<div class="product-image">
+    <img src="product2.jpeg" alt="XYZ CHEATS IOS IPHONE PANEL">
+</div>
+
+<div class="card-content">
+
+<h2>XYZ CHEATS IOS IPHONE PANEL</h2>
+
+<select id="product2" onchange="updatePrice(2)">
+
+<option value="50">1 Day — ₹50</option>
+<option value="70">3 Days — ₹70</option>
+<option value="135">7 Days — ₹135</option>
+<option value="260">15 Days — ₹260</option>
+
+</select>
+
+<div class="price">
+₹<span id="price2">50</span>
+</div>
+
+<button class="btn cart-btn" onclick="addProduct(2)">
+🛒 Add to Cart
+</button>
+
+<button class="btn video-btn" onclick="openVideo('XYZ CHEATS IOS IPHONE PANEL')">
+🎬 Watch Testing Video
+</button>
+
+</div>
+</div>
+
+</div>
+
+
+<!-- CART -->
+
+<section id="cartSection" style="display:none;">
+
+<div class="panel">
+
+<h2>🛒 Your Cart</h2>
+
+<div id="cartItems"></div>
+
+<div class="total">
+Total: ₹<span id="cartTotal">0</span>
+</div>
+
+<button class="btn cart-btn" onclick="checkout()">
+Proceed to Checkout
+</button>
+
+</div>
+
+</section>
+
+
+<!-- LOGIN -->
+
+
+<section id="loginSection" style="display:none;">
+
+<div class="panel">
+
+<div style="display:flex; gap:10px; margin-bottom:20px;">
+
+<button class="btn cart-btn" onclick="showLogin()">
+Login
+</button>
+
+<button class="btn" onclick="showRegister()">
+Register
+</button>
+
+</div>
+
+
+<!-- LOGIN -->
+
+<div id="loginBox">
+
+<h2>🔐 Login</h2>
+
+<input
+id="loginEmail"
+type="email"
+placeholder="Email"
+style="width:100%;padding:12px;margin:8px 0;border-radius:8px;"
+>
+
+<input
+id="loginPassword"
+type="password"
+placeholder="Password"
+style="width:100%;padding:12px;margin:8px 0;border-radius:8px;"
+>
+
+<button class="btn cart-btn" onclick="login()">
+Login
+</button>
+
+<p style="margin-top:15px;">
+Don't have an account?
+<span
+onclick="showRegister()"
+style="color:#00eaff;cursor:pointer;">
+Create Account
+</span>
+</p>
+
+</div>
+
+
+<!-- REGISTER -->
+
+<div id="registerBox" style="display:none;">
+
+<h2>📝 Create Account</h2>
+
+<input
+id="registerName"
+type="text"
+placeholder="Name"
+style="width:100%;padding:12px;margin:8px 0;border-radius:8px;"
+>
+
+<input
+id="registerEmail"
+type="email"
+placeholder="Email"
+style="width:100%;padding:12px;margin:8px 0;border-radius:8px;"
+>
+
+<input
+id="registerPassword"
+type="password"
+placeholder="Password"
+style="width:100%;padding:12px;margin:8px 0;border-radius:8px;"
+>
+
+<button class="btn cart-btn" onclick="registerUser()">
+Create Account
+</button>
+
+<p style="margin-top:15px;">
+Already have an account?
+<span
+onclick="showLogin()"
+style="color:#00eaff;cursor:pointer;">
+Login
+</span>
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- SUPPORT -->
+
+<section id="supportSection" style="display:none;">
+
+<div class="panel">
+
+<h2>💬 Support</h2>
+
+<p style="margin:12px 0;">
+Need help? Contact us:
+</p>
+
+<p>📧 Email: pannelquiery@gmail.com</p>
+
+<p style="margin-top:10px;">
+📱 WhatsApp: +91 92049 479503
+</p>
+
+</div>
+
+</section>
+
+
+<!-- VIDEO MODAL -->
+
+<div class="modal" id="videoModal">
+
+<div class="modal-box">
+
+<button class="close" onclick="closeVideo()">✕</button>
+
+<h2 id="videoTitle">Testing Video</h2>
+
+<video id="videoPlayer" controls poster=""></video>
+    <source src="" type="video/mp4">
+    Your browser does not support video.
+</video>
+
+<p style="margin-top:15px;color:#94a3b8;">
+Testing video placeholder — later we will add your actual video.
+</p>
+
+</div>
+
+</div>
+
+
+<footer>
+
+© 2026 SAIF BHAI PANNEL SHOP — All Rights Reserved
+
+</footer>
+
+
+<script>
+
+let cart = [];
+
+function updatePrice(id){
+
+    let select = document.getElementById("product"+id);
+
+    let price = select.value;
+
+    document.getElementById("price"+id).innerText = price;
+
+}
+
+
+function addProduct(id){
+
+    let name;
+    let select;
+
+    if(id === 1){
+        name = "Dripclient Nonroot Safe";
+        select = document.getElementById("product1");
+    }else{
+        name = "XYZ CHEATS IOS IPHONE PANEL";
+        select = document.getElementById("product2");
+    }
+
+    let price = Number(select.value);
+
+    let duration = select.options[select.selectedIndex].text.split(" — ")[0];
+
+    let existing = cart.find(item =>
+        item.name === name &&
+        item.duration === duration
+    );
+
+    if(existing){
+        existing.quantity++;
+    }else{
+        cart.push({
+            name:name,
+            duration:duration,
+            price:price,
+            quantity:1
+        });
+    }
+
+    updateCart();
+
+    alert("Product added to cart ✅");
+}
+
+
+function updateCart(){
+
+    let items = document.getElementById("cartItems");
+
+    items.innerHTML = "";
+
+    let total = 0;
+    let count = 0;
+
+    cart.forEach((item,index)=>{
+
+        total += item.price * item.quantity;
+        count += item.quantity;
+
+        items.innerHTML += `
+
+        <div class="cart-item">
+
+        <b>${item.name}</b>
+
+        <br>
+
+        Duration: ${item.duration}
+
+        <br>
+
+        Price: ₹${item.price}
+
+        <br>
+
+        Quantity: ${item.quantity}
+
+        <br>
+
+        <button class="remove" onclick="removeItem(${index})">
+        Remove
+        </button>
+
+        </div>
+
+        `;
+
+    });
+
+    document.getElementById("cartTotal").innerText = total;
+
+    document.getElementById("cartCount").innerText = count;
+
+}
+
+
+function removeItem(index){
+
+    cart.splice(index,1);
+
+    updateCart();
+
+}
+
+
+function showCart(){
+
+    hideAll();
+
+    document.getElementById("cartSection").style.display = "block";
+
+    window.scrollTo({
+        top:document.getElementById("cartSection").offsetTop,
+        behavior:"smooth"
+    });
+
+}
+
+
+function showLogin(){
+
+    hideAll();
+
+    document.getElementById("loginSection").style.display = "block";
+
+    document.getElementById("loginBox").style.display = "block";
+
+    document.getElementById("registerBox").style.display = "none";
+
+}
+function showRegister() {
+
+    hideAll();
+
+    document.getElementById("loginSection").style.display = "block";
+
+    document.getElementById("loginBox").style.display = "none";
+
+    document.getElementById("registerBox").style.display = "block";
+
+}
+
+function showSupport(){
+
+    hideAll();
+
+    document.getElementById("supportSection").style.display = "block";
+
+}
+
+
+function hideAll(){
+
+    document.getElementById("cartSection").style.display = "none";
+
+    document.getElementById("loginSection").style.display = "none";
+
+    document.getElementById("supportSection").style.display = "none";
+
+}
+
+async function registerUser() {
+
+    const name = document.getElementById("registerName").value;
+    const email = document.getElementById("registerEmail").value;
+    const password = document.getElementById("registerPassword").value;
+
+    if (!name || !email || !password) {
+        alert("Please fill all fields ❌");
+        return;
+    }
+
+    try {
+
+        const response = await fetch("/register", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                name: name,
+                email: email,
+                password: password
+            })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+
+            alert("Account created successfully! ✅");
+
+            showLogin();
+
+        } else {
+
+            alert(result.message || "Registration failed ❌");
+
+        }
+
+    } catch (error) {
+
+        console.error(error);
+        alert("Server connection failed ❌");
+
+    }
+}
+
+async function login() {
+
+    const email = document.getElementById("loginEmail").value;
+    const password = document.getElementById("loginPassword").value;
+
+    if (!email || !password) {
+        alert("Please enter email and password ❌");
+        return;
+    }
+
+    try {
+
+        const response = await fetch("/login", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password
+            })
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+
+    alert("Login successful ✅ Welcome " + result.user.name);
+
+    document.getElementById("loginButton").style.display = "none";
+
+    document.getElementById("userArea").style.display = "inline-block";
+
+    document.getElementById("userName").textContent = result.user.name;
+
+    document.getElementById("loginSection").style.display = "none";
+
+} else {
+
+            alert(result.message || "Login failed ❌");
+
+        }
+
+    } catch (error) {
+
+        console.error(error);
+        alert("Server connection failed ❌");
+
+    }
+}
+async function logout() {
+
+    try {
+
+        const response = await fetch("/logout", {
+            method: "POST"
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+
+            document.getElementById("userArea").style.display = "none";
+
+            document.getElementById("loginButton").style.display = "inline-block";
+
+            document.getElementById("userName").textContent = "";
+
+            document.getElementById("loginSection").style.display = "block";
+
+            alert("Logged out successfully 👋");
+
+        } else {
+
+            alert("Logout failed ❌");
+
+        }
+
+    } catch (error) {
+
+        console.error(error);
+        alert("Server connection failed ❌");
+
+    }
+}
+
+async function checkout() {
+
+    const userArea = document.getElementById("userArea");
+
+    if (userArea.style.display === "none" || userArea.style.display === "") {
+        alert("Please login before checkout 🔐");
+        showLogin();
+        return;
+    }
+
+    if (cart.length === 0) {
+        alert("Your cart is empty.");
+        return;
+    }
+
+    const total = cart.reduce(
+        (sum, item) => sum + item.price * item.quantity,
+        0
+    );
+
+    try {
+        const response = await fetch("/create-order", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                amount: total
+            })
+        });
+
+        const order = await response.json();
+
+        if (!response.ok) {
+            throw new Error(order.error || "Order creation failed");
+        }
+
+        const options = {
+            key: "rzp_test_TnlCVoQlK2bgbw",
+            amount: order.amount,
+            currency: order.currency,
+            name: "SAIF BHAI PANNEL SHOP",
+            description: "Digital License Purchase",
+            order_id: order.id,
+
+           handler: async function (payment) {
+    try {
+        const response = await fetch("/verify-payment", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payment)
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            alert("Payment verified successfully! ✅");
+        } else {
+            alert("Payment verification failed ❌");
+        }
+
+    } catch (error) {
+        console.error(error);
+        alert("Verification error ❌");
+    }
+},
+
+            theme: {
+                color: "#2563eb"
+            }
+        };
+
+        const rzp = new Razorpay(options);
+        rzp.open();
+
+    } catch (error) {
+        console.error(error);
+        alert("Payment could not be started.");
+    }
+}
+
+function openVideo(title) {
+    const video = document.getElementById("videoPlayer");
+    const videoBox = document.getElementById("videoModal");
+    const videoTitle = document.getElementById("videoTitle");
+
+    videoTitle.textContent = title;
+
+    if (title === "XYZ CHEATS IOS IPHONE PANEL") {
+        video.src = "product2.mp4";
+    } else {
+        video.src = "product1.mp4";
+    }
+
+    videoBox.style.display = "flex";
+    video.play();
+}
+function closeVideo() {
+    const video = document.getElementById("videoPlayer");
+    const videoBox = document.getElementById("videoModal");
+
+    video.pause();
+    video.currentTime = 0;
+    video.src = "";
+    videoBox.style.display = "none";
+}
+async function checkSession() {
+
+    try {
+
+        const response = await fetch("/me");
+        const result = await response.json();
+
+        if (result.loggedIn) {
+
+            document.getElementById("loginButton").style.display = "none";
+
+            document.getElementById("userArea").style.display = "inline-block";
+
+            document.getElementById("userName").textContent = result.user.name;
+
+            document.getElementById("loginSection").style.display = "none";
+
+        }
+
+    } catch (error) {
+
+        console.error("Session check failed:", error);
+
+    }
+}
+
+checkSession();
+</script>
+<div class="instruction-box">
+    <h3>⚠️ Important Instructions</h3>
+    <p>• sabse pahle login karo , bina login ka kuhh nahi hone wala.</p>
+    <p>• jitne bhi pannels yaha pe diye gaye hai saare working hai.</p>
+    <p>• Agar kisi ko bhi pannels mujh  se directly bhi kharidna ho to wo mujhe telegram ya whatsapp pe message kare.</p>
+    <p>• Kisi bhi problem ke liye Support se contact karein.</p>
+</div>
+</body>
+</html>
