@@ -1,7 +1,14 @@
-const db = require("./database");
-const bcrypt = require("bcrypt");
-
 require("dotenv").config();
+
+const db = require("./database");
+const { createClient } = require("@supabase/supabase-js");
+
+const supabase = createClient(
+    process.env.SUPABASE_URL,
+    process.env.SUPABASE_SECRET_KEY
+);
+
+const bcrypt = require("bcrypt");
 const express = require("express");
 const Razorpay = require("razorpay");
 const path = require("path");
@@ -126,9 +133,21 @@ app.post("/register", async (req, res) => {
             });
         }
 
-        const existingUser = db
-            .prepare("SELECT id FROM users WHERE email = ?")
-            .get(email);
+        const normalizedEmail = email.trim().toLowerCase();
+
+        const { data: existingUser, error: checkError } = await supabase
+            .from("users")
+            .select("id")
+            .eq("email", normalizedEmail)
+            .maybeSingle();
+
+        if (checkError) {
+            console.error("User check error:", checkError);
+            return res.status(500).json({
+                success: false,
+                message: "Unable to check email"
+            });
+        }
 
         if (existingUser) {
             return res.status(400).json({
@@ -139,10 +158,29 @@ app.post("/register", async (req, res) => {
 
         const hashedPassword = await bcrypt.hash(password, 12);
 
-        db.prepare(`
-            INSERT INTO users (name, email, password)
-            VALUES (?, ?, ?)
-        `).run(name, email, hashedPassword);
+        const { error: insertError } = await supabase
+            .from("users")
+            .insert({
+                name: name.trim(),
+                email: normalizedEmail,
+                password: hashedPassword
+            });
+
+        if (insertError) {
+            console.error("Registration insert error:", insertError);
+
+            if (insertError.code === "23505") {
+                return res.status(400).json({
+                    success: false,
+                    message: "Email already registered"
+                });
+            }
+
+            return res.status(500).json({
+                success: false,
+                message: "Registration failed"
+            });
+        }
 
         res.json({
             success: true,
@@ -150,7 +188,7 @@ app.post("/register", async (req, res) => {
         });
 
     } catch (error) {
-        console.error(error);
+        console.error("Registration error:", error);
 
         res.status(500).json({
             success: false,
@@ -169,9 +207,22 @@ app.post("/login", async (req, res) => {
             });
         }
 
-        const user = db
-            .prepare("SELECT * FROM users WHERE email = ?")
-            .get(email);
+        const normalizedEmail = email.trim().toLowerCase();
+
+        const { data: user, error: userError } = await supabase
+            .from("users")
+            .select("id, name, email, password")
+            .eq("email", normalizedEmail)
+            .maybeSingle();
+
+        if (userError) {
+            console.error("Login database error:", userError);
+
+            return res.status(500).json({
+                success: false,
+                message: "Unable to login"
+            });
+        }
 
         if (!user) {
             return res.status(401).json({
@@ -191,42 +242,45 @@ app.post("/login", async (req, res) => {
                 message: "Invalid email or password"
             });
         }
+
         req.session.user = {
-    id: user.id,
-    name: user.name,
-    email: user.email
-};
+            id: user.id,
+            name: user.name,
+            email: user.email
+        };
 
-req.session.save((err) => {
-        if (err) {
-            console.error("Session save error:", err);
-            return res.status(500).json({
-                success: false,
-                message: "Session save failed"
-            });
-        }
+        req.session.save((err) => {
+            if (err) {
+                console.error("Session save error:", err);
 
-        res.json({
-            success: true,
-            message: "Login successful",
-            user: {
-                id: user.id,
-                name: user.name,
-                email: user.email
+                return res.status(500).json({
+                    success: false,
+                    message: "Session save failed"
+                });
             }
+
+            res.json({
+                success: true,
+                message: "Login successful",
+                user: {
+                    id: user.id,
+                    name: user.name,
+                    email: user.email
+                }
+            });
         });
-    });
 
-} catch (error) {
-    console.error(error);
+    } catch (error) {
+        console.error("Login error:", error);
 
-    res.status(500).json({
-        success: false,
-        message: "Login failed"
-    });
-}
-
+        res.status(500).json({
+            success: false,
+            message: "Login failed"
+        });
+    }
 });
+
+
 
 app.post("/logout", (req, res) => {
 
