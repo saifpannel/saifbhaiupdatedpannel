@@ -30,9 +30,9 @@ header{
 }
 
 .logo{
-    font-size:80px;
+    font-size:70px;
     font-weight:bold;
-    text-shadow: 0 0 8px #00e5ff, 0 0 16px #00e5ff;
+    text-shadow: 0 0 8px #eff8f9, 0 0 16px #dee5e6;
     font-family: "Orbitron", sans-serif;
 
 }
@@ -75,6 +75,19 @@ nav button{
     border-radius:16px;
     overflow:hidden;
     box-shadow:0 8px 25px rgba(0,0,0,.3);
+}
+.products {
+    gap: 15px;
+}
+
+.card {
+    max-width: 320px;
+    margin: 0 auto;
+}
+
+.product-image img {
+    max-height: 220px;
+    object-fit: contain;
 }
 
 .product-image{
@@ -142,6 +155,85 @@ section{
     border:1px solid #263244;
     border-radius:15px;
     padding:25px;
+}
+/* MODERN LOGIN / REGISTER */
+#loginSection,
+#supportSection {
+    position: fixed;
+    inset: 0;
+    z-index: 3000;
+    background: rgba(0, 0, 0, 0.75);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    overflow-y: auto;
+}
+#loginSection .panel,
+#supportSection .panel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(430px, 90%);
+    max-height: 85vh;
+    overflow-y: auto;
+    margin: 0;
+}
+#loginSection .panel {
+    max-width: 430px;
+    background: rgba(17, 24, 39, 0.95);
+    border: 1px solid #00eaff;
+    box-shadow: 0 0 25px rgba(0, 234, 255, 0.18);
+    animation: loginAppear 0.4s ease;
+}
+
+#loginSection input {
+    background: #0b1220 !important;
+    color: white;
+    border: 1px solid #374151;
+    outline: none;
+    transition: 0.3s;
+}
+
+#loginSection input:focus {
+    border-color: #00eaff;
+    box-shadow: 0 0 10px rgba(0, 234, 255, 0.25);
+}
+
+#loginSection h2 {
+    text-align: center;
+    color: #00eaff;
+    margin-bottom: 20px;
+}
+
+@keyframes loginAppear {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+#loginSection .btn {
+    transition: 0.3s ease;
+}
+
+#loginSection .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 15px rgba(0, 234, 255, 0.35);
+}
+
+#loginSection span[onclick] {
+    transition: 0.2s;
+}
+
+#loginSection span[onclick]:hover {
+    text-decoration: underline;
+    text-shadow: 0 0 8px #00eaff;
 }
 
 .panel h2{
@@ -219,6 +311,45 @@ footer{
     .products{
         padding:25px 4%;
     }
+    .user-profile {
+    width: 100%;
+    justify-content: center;
+    margin-top: 8px;
+}
+}
+header nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+header {
+    position: relative;
+    padding-top: 70px;
+}
+
+header nav {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    right: 10px;
+    width: auto;
+}
+
+header nav button {
+    margin: 3px;
+}
+
+#loginButton {
+    order: 1;
+}
+
+.theme-btn {
+    order: 2;
+}
+
+header nav > button:last-child {
+    order: 3;
 }
 .instruction-box {
     max-width: 900px;
@@ -240,35 +371,285 @@ footer{
     color: #e5e7eb;
     line-height: 1.5;
 }
+.hero-title {
+    font-family: "Orbitron", sans-serif;
+    font-size: 48px;
+    letter-spacing: 3px;
+    text-shadow:
+        0 0 8px #00eaff,
+        0 0 18px #00eaff,
+        0 0 35px rgba(0, 234, 255, 0.5);
+    animation: heroGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes heroGlow {
+    from {
+        transform: scale(1);
+        text-shadow:
+            0 0 8px #00eaff,
+            0 0 18px #00eaff;
+    }
+
+    to {
+        transform: scale(1.06);
+        text-shadow:
+            0 0 12px #00eaff,
+            0 0 25px #00eaff,
+            0 0 40px rgba(0, 234, 255, 0.7);
+    }
+}
+/* THEME BUTTON */
+
+.theme-btn{
+    background:#00eaff;
+    color:#000;
+    border:0;
+    padding:10px 14px;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:bold;
+    margin:3px;
+}
+
+/* LIGHT MODE */
+
+body.light-mode{
+    background:#f5f7fb;
+    color:#111827;
+}
+
+body.light-mode header{
+    background:#ffffff;
+}
+
+body.light-mode .hero{
+    background:linear-gradient(135deg,#ffffff,#dbeafe);
+}
+
+body.light-mode .card,
+body.light-mode .panel,
+body.light-mode .modal-box,
+body.light-mode .instruction-box{
+    background:#ffffff;
+    color:#111827;
+}
+
+body.light-mode .hero p,
+body.light-mode .instruction-box p{
+    color:#374151;
+}
+
+body.light-mode .instruction-box h3{
+    color:#0891b2;
+}
+/* LOADING SCREEN */
+
+#loader {
+    position: fixed;
+    inset: 0;
+    background: #0b0f19;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.loader-box {
+    text-align: center;
+}
+
+.loader-spinner {
+    width: 55px;
+    height: 55px;
+    border: 5px solid #1f2937;
+    border-top: 5px solid #00eaff;
+    border-radius: 50%;
+    animation: spinLoader 1s linear infinite;
+    margin: 0 auto 18px;
+}
+
+.loader-text {
+    color: #00eaff;
+    font-family: "Orbitron", sans-serif;
+    font-size: 18px;
+    text-shadow: 0 0 10px #00eaff;
+}
+
+#loader.hide {
+    opacity: 0;
+    visibility: hidden;
+}
+
+@keyframes spinLoader {
+    to {
+        transform: rotate(360deg);
+    }
+}
+/* USER PROFILE */
+
+.user-profile {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #111827;
+    border: 1px solid #00eaff;
+    padding: 7px 10px;
+    border-radius: 10px;
+    margin: 3px;
+    box-shadow: 0 0 10px rgba(0, 234, 255, 0.15);
+}
+
+.profile-name {
+    color: #00eaff;
+    font-weight: bold;
+}
+
+.logout-btn {
+    background: #ef4444;
+    color: white;
+    border: 0;
+    padding: 7px 10px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.logout-btn:hover {
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+}
+/* PROFILE PANEL */
+
+.profile-panel {
+    display: none;
+    position: fixed;
+    top: 90px;
+    right: 25px;
+    width: 300px;
+    background: #111827;
+    border: 1px solid #00eaff;
+    border-radius: 15px;
+    padding: 22px;
+    z-index: 2000;
+    box-shadow: 0 0 25px rgba(0, 234, 255, 0.25);
+    animation: profileAppear 0.3s ease;
+}
+
+.profile-panel h2 {
+    color: #00eaff;
+    margin-bottom: 18px;
+}
+
+.profile-panel p {
+    margin: 12px 0;
+    color: #e5e7eb;
+    word-break: break-word;
+}
+
+.profile-close {
+    float: right;
+    background: #ef4444;
+    color: white;
+    border: 0;
+    padding: 5px 9px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.profile-panel .logout-btn {
+    width: 100%;
+    margin-top: 12px;
+}
+
+@keyframes profileAppear {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media(max-width:600px) {
+    .profile-panel {
+        left: 5%;
+        right: 5%;
+        top: 100px;
+        width: 90%;
+    }
+}
+.popup-close {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: #ef4444;
+    color: white;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.popup-close:hover {
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.7);
+    transform: scale(1.05);
+}
+.active-tab {
+    background: #22c55e !important;
+    color: white !important;
+    box-shadow: 0 0 15px rgba(34, 197, 94, 0.45);
+}
 </style>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;800&display=swap" rel="stylesheet">
-</head>
-
 <body>
+
+<div id="loader">
+    <div class="loader-box">
+        <div class="loader-spinner"></div>
+        <div class="loader-text">SAIF BHAI PANNEL SHOP</div>
+    </div>
+</div>
 
 <header>
 
 <div class="logo">
-    <img src="logo.jpeg" alt="SAIF BHAI PANNEL SHOP" style="width:120px; height:120px; object-fit:contain;">
-    <span style="color:#ff0000;">SAIF BHAI PANNEL SHOP</span>
+    <img src="logo.jpeg" alt="SAIF BHAI PANNEL SHOP"
+         style="width:120px; height:120px; object-fit:contain; display:block; margin:0 auto 10px;">
+
+    <span style="color:#ff0000; display:block; text-align:center;">
+        SAIF BHAI PANNEL SHOP
+    </span>
 </div>
 
 <nav>
 
-<button onclick="showCart()">
-🛒 Cart (<span id="cartCount">0</span>)
-</button>
+
 
 <button id="loginButton" onclick="showLogin()">
 Login / Register
 </button>
 
-<span id="userArea" style="display:none;">
+<span id="userArea" class="user-profile" style="display:none;">
+    <span class="profile-name" onclick="openProfile()">
     👤 <span id="userName"></span>
-    <button onclick="logout()">Logout</button>
+    </span>
+
+    <button class="logout-btn" onclick="logout()">
+        Logout
+    </button>
 </span>
 
+<button class="theme-btn" onclick="toggleTheme()" id="themeButton">
+    🌙 Dark
+</button>
 <button onclick="showSupport()">
 Support
 </button>
@@ -276,16 +657,48 @@ Support
 </nav>
 
 </header>
+<div id="profilePanel" class="profile-panel">
 
+    <button class="profile-close" onclick="closeProfile()">✕</button>
+
+    <h2>👤 My Profile</h2>
+
+    <p>
+        <b>Name:</b>
+        <span id="profileName"></span>
+    </p>
+
+    <p>
+        <b>Email:</b>
+        <span id="profileEmail"></span>
+    </p>
+
+    <button class="logout-btn" onclick="logout()">
+        🚪 Logout
+    </button>
+
+</div>
 <div class="hero">
 
-<h1>Digital License Keys</h1>
+    <div class="instruction-box">
+    <h3>⚠️ Important Instructions</h3>
+    <p>• sabse pahle login karo , bina login ka kuhh nahi hone wala brother.</p>
+    <p>• jitne bhi pannels yaha pe diye gaye hai saare working hai aur mai baki logo se saste rate pe sell kar raha hoon.</p>
+    <p>• Agar kisi ko bhi pannels mujh  se directly bhi kharidna ho to wo mujhe telegram ya whatsapp pe message kare.</p>
+    <p>• Kisi bhi problem ke liye contact karein , whatsapp pe message karo.</p>
+    <p>• message karo mujhe , mai apk dunga aur setup bhi kara dunga.</p>
+</div>
+<h1 class="hero-title">BUY PANNELs</h1>
 
-<p>Choose your product, select duration and add it to your cart.</p>
+<p style="font-size:40px; margin-top:20px;">
+    <a href="#products" style="color:#00eaff; text-decoration:none;">↓</a>
+</p>
 
 </div>
 
-<div class="products">
+<div id="products" class="products">
+
+</div>
 
 <!-- PRODUCT 1 -->
 
@@ -299,21 +712,10 @@ Support
 
 <h2>Dripclient Nonroot Safe</h2>
 
-<select id="product1" onchange="updatePrice(1)">
+<p>Buy at: <a href="https://t.me/pannelsellerbysa" target="_blank">Telegram</a></p>
 
-<option value="15">1 Hour — ₹15</option>
-<option value="40">6 Hours — ₹40</option>
-<option value="60">13 Hours — ₹60</option>
 
-</select>
 
-<div class="price">
-₹<span id="price1">15</span>
-</div>
-
-<button class="btn cart-btn" onclick="addProduct(1)">
-🛒 Add to Cart
-</button>
 
 <button class="btn video-btn" onclick="openVideo('Dripclient Nonroot Safe')">
 🎬 Watch Testing Video
@@ -335,22 +737,11 @@ Support
 
 <h2>XYZ CHEATS IOS IPHONE PANEL</h2>
 
-<select id="product2" onchange="updatePrice(2)">
+<p>Buy at: <a href="https://t.me/pannelsellerbysa" target="_blank">Telegram</a></p>
 
-<option value="50">1 Day — ₹50</option>
-<option value="70">3 Days — ₹70</option>
-<option value="135">7 Days — ₹135</option>
-<option value="260">15 Days — ₹260</option>
 
-</select>
 
-<div class="price">
-₹<span id="price2">50</span>
-</div>
 
-<button class="btn cart-btn" onclick="addProduct(2)">
-🛒 Add to Cart
-</button>
 
 <button class="btn video-btn" onclick="openVideo('XYZ CHEATS IOS IPHONE PANEL')">
 🎬 Watch Testing Video
@@ -358,31 +749,50 @@ Support
 
 </div>
 </div>
+<!-- PRODUCT 3 -->
 
-</div>
+<div class="card">
 
+    <div class="product-image">
+        <img src="product3.jpeg" alt="XYZ CHEATS ROOT">
+    </div>
 
-<!-- CART -->
+    <div class="card-content">
 
-<section id="cartSection" style="display:none;">
+        <h2>XYZ CHEATS ROOT</h2>
 
-<div class="panel">
-
-<h2>🛒 Your Cart</h2>
-
-<div id="cartItems"></div>
-
-<div class="total">
-Total: ₹<span id="cartTotal">0</span>
-</div>
-
-<button class="btn cart-btn" onclick="checkout()">
-Proceed to Checkout
+        <p>Buy at: <a href="https://t.me/pannelsellerbysa" target="_blank">Telegram</a></p>
+        <button class="btn video-btn" onclick="openVideo('XYZ CHEATS ROOT')">
+    🎬 Watch Testing Video
 </button>
 
+    </div>
+
+</div>
+<!-- PRODUCT 4 -->
+
+<div class="card">
+
+    <div class="product-image">
+        <img src="product4.jpeg" alt="XREG PANNEL">
+    </div>
+
+    <div class="card-content">
+
+        <h2>XREG PANNEL</h2>
+
+        <p>Buy at: <a href="https://t.me/pannelsellerbysa" target="_blank">Telegram</a></p>
+
+        <button class="btn video-btn" onclick="openVideo('XREG PANNEL')">
+            🎬 Watch Testing Video
+        </button>
+
+    </div>
+
+</div>
 </div>
 
-</section>
+
 
 
 <!-- LOGIN -->
@@ -391,16 +801,15 @@ Proceed to Checkout
 <section id="loginSection" style="display:none;">
 
 <div class="panel">
+    <button onclick="hideAll()" class="popup-close">✕</button>
+
 
 <div style="display:flex; gap:10px; margin-bottom:20px;">
 
-<button class="btn cart-btn" onclick="showLogin()">
-Login
-</button>
+<button id="loginTab" class="btn cart-btn active-tab" onclick="showLogin()">Login</button>
 
-<button class="btn" onclick="showRegister()">
-Register
-</button>
+<button id="registerTab" class="btn" onclick="showRegister()">Register</button>
+
 
 </div>
 
@@ -493,17 +902,24 @@ Login
 <section id="supportSection" style="display:none;">
 
 <div class="panel">
+    <button onclick="hideAll()" class="popup-close">✕</button>
 
 <h2>💬 Support</h2>
 
 <p style="margin:12px 0;">
-Need help? Contact us:
+Choose how you want to contact us:
 </p>
 
-<p>📧 Email: pannelquiery@gmail.com</p>
+<div style="display:flex; gap:12px; flex-wrap:wrap;">
 
-<p style="margin-top:10px;">
-📱 WhatsApp: +91 92049 479503
+    <a href="https://wa.me/9192049479503"
+       target="_blank"
+       class="btn">
+        💬 DM on WhatsApp
+    </a>
+
+    <p style="margin-top:10px;">
+    📧 Email: pannelquiery@gmail.com
 </p>
 
 </div>
@@ -545,6 +961,18 @@ Testing video placeholder — later we will add your actual video.
 <script>
 
 let cart = [];
+function toggleTheme() {
+
+    document.body.classList.toggle("light-mode");
+
+    const button = document.getElementById("themeButton");
+
+    if (document.body.classList.contains("light-mode")) {
+        button.innerText = "☀️ Light";
+    } else {
+        button.innerText = "🌙 Dark";
+    }
+}
 
 function updatePrice(id){
 
@@ -690,21 +1118,31 @@ function showRegister() {
     document.getElementById("loginBox").style.display = "none";
 
     document.getElementById("registerBox").style.display = "block";
+    document.getElementById("registerTab").classList.add("active-tab");
+document.getElementById("loginTab").classList.remove("active-tab");
 
 }
-
 function showSupport(){
+
+    const userArea = document.getElementById("userArea");
+
+    if (
+        userArea.style.display === "none" ||
+        userArea.style.display === ""
+    ) {
+        alert("Please login or register first 🔐");
+        showLogin();
+        return;
+    }
 
     hideAll();
 
     document.getElementById("supportSection").style.display = "block";
-
 }
 
 
 function hideAll(){
 
-    document.getElementById("cartSection").style.display = "none";
 
     document.getElementById("loginSection").style.display = "none";
 
@@ -773,6 +1211,7 @@ async function login() {
 
         const response = await fetch("/login", {
             method: "POST",
+            credentials:"include",
             headers: {
                 "Content-Type": "application/json"
             },
@@ -793,6 +1232,11 @@ async function login() {
     document.getElementById("userArea").style.display = "inline-block";
 
     document.getElementById("userName").textContent = result.user.name;
+
+    document.getElementById("profileEmail").textContent = result.user.email;
+
+    document.getElementById("userName").textContent = result.user.name;
+document.getElementById("profileEmail").textContent = result.user.email;
 
     document.getElementById("loginSection").style.display = "none";
 
@@ -935,11 +1379,15 @@ function openVideo(title) {
 
     videoTitle.textContent = title;
 
-    if (title === "XYZ CHEATS IOS IPHONE PANEL") {
-        video.src = "product2.mp4";
-    } else {
-        video.src = "product1.mp4";
-    }
+   if (title === "XYZ CHEATS IOS IPHONE PANEL") {
+    video.src = "product2.mp4";
+} else if (title === "XYZ CHEATS ROOT") {
+    video.src = "product3.mp4";
+} else if (title === "XREG PANNEL") {
+    video.src = "product4.mp4";
+} else {
+    video.src = "product1.mp4";
+}
 
     videoBox.style.display = "flex";
     video.play();
@@ -968,6 +1416,8 @@ async function checkSession() {
 
             document.getElementById("userName").textContent = result.user.name;
 
+            document.getElementById("profileEmail").textContent = result.user.email;
+
             document.getElementById("loginSection").style.display = "none";
 
         }
@@ -978,15 +1428,33 @@ async function checkSession() {
 
     }
 }
+function openProfile() {
+    document.getElementById("profilePanel").style.display = "block";
 
-checkSession();
+    document.getElementById("profileName").textContent =
+        document.getElementById("userName").textContent;
+}
+
+
+
+function closeProfile() {
+    document.getElementById("profilePanel").style.display = "none";
+}
+window.addEventListener("load", function () {
+
+    setTimeout(function () {
+
+        const loader = document.getElementById("loader");
+
+        if (loader) {
+            loader.classList.add("hide");
+        }
+
+    }, 800);
+
+});
+checkSession()
 </script>
-<div class="instruction-box">
-    <h3>⚠️ Important Instructions</h3>
-    <p>• sabse pahle login karo , bina login ka kuhh nahi hone wala.</p>
-    <p>• jitne bhi pannels yaha pe diye gaye hai saare working hai.</p>
-    <p>• Agar kisi ko bhi pannels mujh  se directly bhi kharidna ho to wo mujhe telegram ya whatsapp pe message kare.</p>
-    <p>• Kisi bhi problem ke liye Support se contact karein.</p>
-</div>
+
 </body>
 </html>
